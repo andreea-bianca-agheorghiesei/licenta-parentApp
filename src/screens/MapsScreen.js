@@ -28,7 +28,7 @@ const API_URL = 'http://10.0.2.2:3000/api/parent';
 const latitudeDelta = 0.01
 const longitudeDelta = 0.01
 
-const Map = () => {
+const Map = ({navigation}) => {
   const [region, setRegion] = useState({
     latitude: 46.6772292074,
     longitude: 28.0776175886,
@@ -66,12 +66,11 @@ const Map = () => {
 
  useEffect(() => {
     console.log('start getting location');
-    console.log(addingZone);
+    console.log(isAddingZone);
    // getData()
     // const interval = setInterval(() => {
     //   getData()
     // }, 5000);
-    handleChildLocation();
      return () => {
       // clearInterval(interval)
        //setAddingZone(false)

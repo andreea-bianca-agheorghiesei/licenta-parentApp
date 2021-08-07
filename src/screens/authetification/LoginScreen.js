@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { 
     View, 
     Text, 
@@ -28,6 +28,11 @@ const LoginScreen= ({navigation}) => {
     const [email, setEmail] = useState('bianca@gmail.com');
     const [password, setPassword] = useState('bianca');
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        return () => { setError('') }
+    },[]);
+
     return (
         <View style = {styles.container}>
             <TextInput style = {styles.text_input}
