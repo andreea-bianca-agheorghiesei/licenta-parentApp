@@ -29,6 +29,11 @@ const LoginScreen= ({navigation}) => {
     const [password, setPassword] = useState('bianca');
     const [error, setError] = useState('');
 
+    const setErrorMessage = (status) => { 
+        if( status===404 || status === 403){
+            setError('Email or password is invalid')
+        }
+    }
     useEffect(() => {
         return () => { setError('') }
     },[]);
@@ -51,8 +56,7 @@ const LoginScreen= ({navigation}) => {
                   try{
                     await login(email, password)
                     }catch(err) {
-                        setError(err.message);
-                        console.log(err)
+                        setErrorMessage(err.response.status)
                     }
             }}>
                 <Text>LOGIN</Text>

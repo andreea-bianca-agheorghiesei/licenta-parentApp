@@ -17,11 +17,10 @@ export const useAuth = () =>
             ...state, 
             user: undefined,
           };
-
         default: 
           return state;
       }
-  }, ({ user: undefined,})
+  }, ({ user: undefined})
   );
 
   const auth = React.useMemo(
@@ -29,33 +28,39 @@ export const useAuth = () =>
       login :  async (email, password) => {
         console.log('login');
 
-        // const data = await axios.post( `${BASE_URL}/login`,{
-        //   email: email, 
-        //   paswword: password
-        // },{timeout: 1000});
-        const user = {
-          email: email,
-          token : 'un token'
-        }
+        const {data} = await axios.post( `${BASE_URL}/login`,{
+          email: email, 
+          password: password
+        },{timeout: 1000});
 
-        // salvat undeva local
-        // trebuia ca secure storage dar nu merge
-        // deci trebuie folosit async...
+        console.log(data)
+        const user = {
+          jwt : data.JWTtoken,
+          username: data.username 
+        }
+        
+        // adaugare async storage
         dispatch(createAction('SET_USER', user));
+
       },
       logout: () => {
         dispatch(createAction('REMOVE_USER'));
       },
-
       register : async(email, password, username) => {
         console.log('register'+" "+  email +" "+  password +" "+ username)
-        // aceasi chestie pentru register ca la login 
         const {data} = await axios.post(`${BASE_URL}/register`,{
           email: email, 
           password: password,
           username: username
         }, {timeout: 1000});
-         console.log(JSON.stringify(data));
+
+        const user = {
+          jwt : data.JWTtoken 
+        }
+        
+        // adaugare async storage
+        dispatch(createAction('SET_USER', user));
+
       }    
   }), []);
 

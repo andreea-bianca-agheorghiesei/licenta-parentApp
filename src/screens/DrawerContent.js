@@ -14,10 +14,12 @@ import {
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {AuthContext} from '../context/AuthContext';
+import {UserContext} from '../context/UserContext';
 
 export function DrawerContent(props) {
 
     const {logout} = React.useContext(AuthContext);
+    const {user} = React.useContext(UserContext);
     return(
         <View style={{flex:1}}>
             <DrawerContentScrollView {...props}>
@@ -26,7 +28,7 @@ export function DrawerContent(props) {
                         <View style={{flexDirection:'row',marginTop: 15}}>
                             <View style={{marginLeft:15, flexDirection:'column'}}>
                                 <Title style={styles.title}>Hello,</Title>
-                                <Caption style={styles.caption}>Parintele</Caption>
+                                <Caption style={styles.caption}>{user.username}</Caption>
                             </View>
                         </View>
                     </View>

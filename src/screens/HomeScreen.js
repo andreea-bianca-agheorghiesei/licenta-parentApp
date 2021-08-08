@@ -1,23 +1,36 @@
 import React from 'react';
 import {View, Text, Button, TouchableOpacity, StyleSheet} from 'react-native';
 import {UserContext} from '../context/UserContext';
+import axios from 'axios';
+import {BASE_URL} from '../config';
 
-const copii = [
-    {name: 'Copil1'},
-    {name: 'Copil2'},
-]
+
 const HomeScreen = ({navigation}) => {
   const {user} = React.useContext(UserContext);
+  const [children, setChildren] = React.useState([]);
+
+  React.useLayoutEffect(()=> {
+     axios({
+      method: 'get',
+      url:  `${BASE_URL}/getChildren`,
+      headers: {"x-access-token" : user.jwt},
+    }).then(({data}) => {
+      console.log(JSON.stringify(data.children));
+      setChildren(data.children)
+    }).catch((err) => {
+      console.log('am eroare')
+    });
+  }, [])
+
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Home Screen </Text>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'space-between', paddingVertical : '20%'}}>
       <Text style={{fontSize:20}}>Lista Copii</Text>
-      {copii.map(
-        (copil, i) => { 
+      {children.map(
+        (child, i) => { 
             return (    
               <TouchableOpacity  key={i}
-                onPress={()=> navigation.navigate('Tab',  {params:{child_name : copil.name}, screen: 'TabNavigator'} )}>
-                <Text>{copil.name}</Text>
+                onPress={()=> navigation.navigate('Tab',  {params:{child_name : child.name}, screen: 'TabNavigator'} )}>
+                <Text>{child.name}</Text>
               </TouchableOpacity>
               )
           }

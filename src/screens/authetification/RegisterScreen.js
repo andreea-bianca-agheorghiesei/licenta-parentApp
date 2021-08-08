@@ -25,11 +25,31 @@ const RegisterScreen= ({navigation}) => {
 
     const {register} = React.useContext(AuthContext); 
 
-    const [email, setEmail] = useState('bianca@gmail.com');
+    const [email, setEmail] = useState('bianca2@gmail.com');
     const [password, setPassword] = useState('bianca');
-    const [userName, setUserName] = useState('bianca');
+    const [username, setUsername] = useState('bianca');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+
+    const setErrorMessage = (status) => {
+        if(status === 409)
+        {
+            Alert.alert(
+                "This email is alreasy in use",
+                "Go to login screen",
+                [
+                   {
+                       text: "Cancel",
+                   },
+                   {
+                       text: "OK",
+                       onPress: () => {navigation.pop()}
+                   }
+
+                ]
+            )
+        }
+    };
 
     return (
         <View style = {styles.container}>
@@ -39,8 +59,8 @@ const RegisterScreen= ({navigation}) => {
                        onChangeText = {setPassword} />
              <TextInput style = {styles.text_input}
                        placeholder = "username"
-                       value={userName}
-                       onChangeText = {setUserName} />
+                       value={username}
+                       onChangeText = {setUsername} />
             <TextInput style = {styles.text_input} 
                        placeholder = "password"
                        secureTextEntry
@@ -48,21 +68,17 @@ const RegisterScreen= ({navigation}) => {
                        onChangeText= {setPassword}/>
             <Text>{error}</Text>    
             <TouchableOpacity style = {styles.button} 
-                              onPress = {async () => {
-                                  try{
-                                      setLoading(true);
-                                      await register(email, password, userName);
-                                      navigation.pop();
-                                  }catch(er) {
-                                    setError(err.message)
-                                    setLoading(false);
-                                    console.log(err)
-                                  }
-                                  }}>
+                              onPress = {async() => {
+                                            try{
+                                                await register(email, password, username)
+                                                }catch(err) {
+                                                    //setError(err.message)
+                                                    setErrorMessage(err.response.status)
+                                                }
+                                        }}
+            >
                 <Text>REGISTER</Text>
-            </TouchableOpacity>
-
-         
+            </TouchableOpacity>       
         </View>
     );
 };

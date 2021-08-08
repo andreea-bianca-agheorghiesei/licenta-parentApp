@@ -18,14 +18,11 @@ const HomeStackScreen = ({navigation}) => {
            headerStyle: {
             backgroundColor: '#BF55EC',
           },
-          headerTintColor: '#ffffff',
-          headerTitleStyle: {
-            fontWeight: 'bold'
-          }
       }}>
 
         <HomeStack.Screen name='Home' component = {HomeScreen}
               options = {{
+                title: '',
                 headerLeft: () => (
                   <Icon.Button name ='menu' size = {25} 
                     backgroundColor = "#BF55EC"
