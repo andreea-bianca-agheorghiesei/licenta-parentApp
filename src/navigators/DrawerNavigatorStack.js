@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import HomeScreen from '../screens/HomeScreen';
 import MapScreen from '../screens/MapsScreen';
-import {TabNavigatorStack} from './TabNavigatorStack'
+import {TabNavigator} from './TabNavigatorStack'
 import {DrawerContent} from '../screens/DrawerContent';
 
 const HomeStack = createStackNavigator();
@@ -31,6 +31,8 @@ const HomeStackScreen = ({navigation}) => {
                 )
               }}
         /> 
+        <HomeStack.Screen name='Tab' component={TabNavigator} options = {{ headerShown:false}}/>
+
       </HomeStack.Navigator>
     );
 }
@@ -43,7 +45,6 @@ export const  DrawerNavigatorStack = () => {
       <Drawer.Navigator
             drawerContent= {props=> <DrawerContent {...props}/>}>
         <Drawer.Screen name="Home" component={HomeStackScreen}/>
-        <Drawer.Screen name="Tab" component={TabNavigatorStack}/>
       </Drawer.Navigator> 
     )
 };

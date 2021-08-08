@@ -29,7 +29,7 @@ const HomeScreen = ({navigation}) => {
         (child, i) => { 
             return (    
               <TouchableOpacity  key={i}
-                onPress={()=> navigation.navigate('Tab',  {params:{child_name : child.name}, screen: 'TabNavigator'} )}>
+                onPress={()=> navigation.navigate('Tab', {params : {child_name : child.name}}) }>
                 <Text>{child.name}</Text>
               </TouchableOpacity>
               )
@@ -40,5 +40,5 @@ const HomeScreen = ({navigation}) => {
   )
 };
 
-
+// {screen: 'TabNavigator', params:{ screen: 'Map', params: {child_name : child.name}}} 
 export default HomeScreen;

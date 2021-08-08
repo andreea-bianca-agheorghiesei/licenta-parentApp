@@ -3,16 +3,16 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 // tab navigator
-import Map from '../screens/MapsScreen'
-import Notifications from '../screens/NotificationsScreen'
+import Map from '../screens/MapsScreen';
+import Notifications from '../screens/NotificationsScreen';
 
+import {TabContext} from '../context/TabNavigatorContext';
 
 
 //creating tab navigator
 const Tabs = createBottomTabNavigator();
-const Stack = createStackNavigator();
 
-const TabNavigator = () => { 
+export const TabNavigator = ({route}) => { 
    return (
       <Tabs.Navigator
         screenOptions={ ({route}) => ({
@@ -39,26 +39,27 @@ const TabNavigator = () => {
 
         }}
       >      
-        <Tabs.Screen name='Map' component={Map}/>
-        <Tabs.Screen name='Not' component={Notifications}/>
+        <Tabs.Screen name='Map'>
+          {
+            () => (
+              <TabContext.Provider value={{childData: route.params}}>
+                <Map/>
+              </TabContext.Provider>
+            )
+          }
+        </Tabs.Screen>
+
+        <Tabs.Screen name='Not'>
+          {
+            () => (
+              <TabContext.Provider value={{childData: route.params}}>
+                <Notifications/>
+              </TabContext.Provider>
+            )
+          }
+        </Tabs.Screen>
       </Tabs.Navigator>
 
   )
 }
 
-export const TabNavigatorStack = () => {
-    return (
-    <Stack.Navigator screenOptions = {{
-           headerStyle: {
-            backgroundColor: '#BF55EC',
-          },
-          headerTintColor: '#ffffff',
-          headerTitleStyle: {
-            fontWeight: 'bold'
-          }
-      }}>
-
-        <Stack.Screen name='TabNavigator' component = {TabNavigator} options={ ({route}) => ({title:route.params.child_name})}/> 
-      </Stack.Navigator>      
-    )
-}

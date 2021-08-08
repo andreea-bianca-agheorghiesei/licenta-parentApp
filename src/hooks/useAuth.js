@@ -56,11 +56,9 @@ export const useAuth = () =>
 
         const user = {
           jwt : data.JWTtoken 
-        }
-        
+        }       
         // adaugare async storage
         dispatch(createAction('SET_USER', user));
-
       }    
   }), []);
 

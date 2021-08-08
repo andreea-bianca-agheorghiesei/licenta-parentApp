@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect} from "react";
 
 import MapView, {PROVIDER_GOOGLE, Marker, Circle} from "react-native-maps";
 import { View, 
@@ -7,75 +7,113 @@ import { View,
         StyleSheet,
         TextInput,
         Button,
-        SafeAreaView} from 'react-native';
+        SafeAreaView, 
+        Alert} from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-//import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import axios from 'axios';
 import styles from '../styles/mapScreenStyles';
-const API_URL = 'http://10.0.2.2:3000/api/parent';
+import {BASE_URL} from '../config';
 
-// To do : 
-// 1. partea de urmarire a copilului (sa se miste markerul pe harta, etc)
-// 2. sa dupa ce selectezi zona sa apara adresa in chestia aia de search (opt. sa poti cauta o adresa si sa iti apara pe harta)
-// 3. sa trimiti la server zona
-
-
-
+import {TabContext} from '../context/TabNavigatorContext';
+import {UserContext} from '../context/UserContext';
 
 const latitudeDelta = 0.01
 const longitudeDelta = 0.01
 
-const Map = ({navigation}) => {
+const Map = () => {
+  const {childData} = React.useContext(TabContext);
+  const {user} = React.useContext(UserContext);
+
   const [region, setRegion] = useState({
     latitude: 46.6772292074,
     longitude: 28.0776175886,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01
+    latitudeDelta,
+    longitudeDelta
   });
-  const [jwt, setJwt] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwYzUxMjU0OGE0MzlhMTdjMDhjNjg2MyIsImlhdCI6MTYyODAwNDAyMiwiZXhwIjoxNjI4MDkwNDIyfQ.n5EtEdFtIJjY4wFf08R6bVrrFxaSIxkNsaCS_a3Awgs')
-  const [childName, setchildName] = useState('bobi')
+
   const [location, setLocation] = useState({
-    latitude: 46.6772292074, 
-    longitude: 28.0776175886
+    latitude: null, 
+    longitude: null
   });
+
   const [isAddingZone, setAddingZone] = useState(false);
   const [isLocationFixed, setLocationFixed] = useState(true);
   const [radius, setRadius] = useState(50);
-
+  const [zoneName, setZoneName] = useState('');
   const mapRef = useRef(null);
-
+ 
+  
   getData = () => {
     axios({
       method: 'get',
-      url:  `${API_URL}/getLoc/${childName}`,
-      headers: {"x-access-token" : jwt},
+      url:  `${BASE_URL}/getLoc/${childData.params.child_name}`,
+      headers: {"x-access-token" : user.jwt},
     }).then(res=>{
       console.log('from server: ' +  JSON.stringify(res.data.coordinates[0]));
+      if(!isAddingZone){
       setLocation({
         latitude: res.data.coordinates[0],
         longitude: res.data.coordinates[1]
       })
-
+    }
     }).catch(err => {
       console.log(err);
     })   
   }
 
- useEffect(() => {
+  const createZone = () => {
+    if(isLocationFixed)
+     { 
+       console.log('raza' , radius);
+       console.log('latitudinea: ', region.latitude);
+       console.log('longitude: ', region.longitude);
+       console.log(zoneName)
+       if(zoneName !== ''){    
+       axios.post(`${BASE_URL}/addZone`,
+      {
+        childName: childData.params.child_name,
+        zoneName : zoneName,
+        radius : radius,
+        coordinates: [region.latitude, region.longitude]
+      },
+      {
+         headers: {"x-access-token" : user.jwt}
+      }
+      ).then(res=>{
+           console.log(res.data)
+           Alert.alert(
+                "The zone was added!",
+                [
+                   {
+                       text: "OK",
+                   }
+                ]
+            )
+          }
+          ).catch(err => {
+            console.log(err);
+      })   
+        
+}}}
+
+ useLayoutEffect(() => {
     console.log('start getting location');
-    console.log(isAddingZone);
-   // getData()
+    console.log(childData.params.child_name)
+    getData();
     // const interval = setInterval(() => {
     //   getData()
     // }, 5000);
-     return () => {
-      // clearInterval(interval)
-       //setAddingZone(false)
-       }
+    //  return () => {
+    //    clearInterval(interval);
+    //    }
   }, []);
+
+  useEffect(() => {
+    centerMap();
+}, [location]);
 
   onRegionChangeComplete = (region, isGesture) => {
     setRegion(region)
@@ -110,7 +148,6 @@ const Map = ({navigation}) => {
   const centerMap = () => {
     const lat = location.latitude;
     const long = location.longitude;
-    console.log(lat + " " + long)
     mapRef.current.animateToRegion ({
       latitude: lat,
       longitude: long,
@@ -144,7 +181,7 @@ const Map = ({navigation}) => {
           
         }
         {
-          (isAddingZone === false)?
+          (isAddingZone === false && location.latitude!==null && location.longitude!==null)?
           <Marker
             coordinate = {location}
             pinColor = {"purple"} 
@@ -174,7 +211,7 @@ const Map = ({navigation}) => {
               style = {{opacity: 0.7}}
           />
        </TouchableOpacity> 
-      {/* fixed markerul  */}
+      {/* fixed marker  */}
         {
           (isAddingZone === true && isLocationFixed === false) ?  
           <View style={styles.markerFixed}>
@@ -220,11 +257,15 @@ const Map = ({navigation}) => {
 
        {/* footerul in care adaugi numele zonei */}
        <View style = {styles.createZoneFooter}>
-          <TextInput style = {styles.zoneNameInput}/>
+          <TextInput 
+                style = {styles.zoneNameInput}
+                onChangeText = {setZoneName}
+          />
             <TouchableOpacity 
                     style = {styles.createZoneButton} 
                     placeholder="Zone Name"
-                    placeholderTextColor="#666666">
+                    placeholderTextColor="#666666"
+                    onPress = {()=> {createZone()}}>
                 <Text style = {styles.buttonText}>CREATE  ZONE</Text>
             </TouchableOpacity>
        </View>
