@@ -41,7 +41,6 @@ export const useAuth = () =>
         
         // adaugare async storage
         dispatch(createAction('SET_USER', user));
-
       },
       logout: () => {
         dispatch(createAction('REMOVE_USER'));

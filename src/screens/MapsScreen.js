@@ -54,10 +54,11 @@ const Map = () => {
     }).then(res=>{
       console.log('from server: ' +  JSON.stringify(res.data.coordinates[0]));
       if(!isAddingZone){
-      setLocation({
+      if(res.data.coordinates[0])
+      {setLocation({
         latitude: res.data.coordinates[0],
         longitude: res.data.coordinates[1]
-      })
+      })}
     }
     }).catch(err => {
       console.log(err);
@@ -100,20 +101,20 @@ const Map = () => {
 }}}
 
  useLayoutEffect(() => {
-    console.log('start getting location');
-    console.log(childData.params.child_name)
+    console.log('start getting location of' + " " + childData.params.child_name);
     getData();
-    // const interval = setInterval(() => {
-    //   getData()
-    // }, 5000);
-    //  return () => {
-    //    clearInterval(interval);
-    //    }
+    // centerMap();
+    const interval = setInterval(() => {
+      getData()
+    }, 5000);
+     return () => {
+       clearInterval(interval);
+       }
   }, []);
 
-  useEffect(() => {
-    centerMap();
-}, [location]);
+//   useEffect(() => {
+//     centerMap();
+// }, [location]);
 
   onRegionChangeComplete = (region, isGesture) => {
     setRegion(region)

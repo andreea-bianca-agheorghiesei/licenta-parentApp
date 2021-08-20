@@ -25,7 +25,7 @@ const colors = {
 const LoginScreen= ({navigation}) => {
 
     const {login} = React.useContext(AuthContext);
-    const [email, setEmail] = useState('bianca@gmail.com');
+    const [email, setEmail] = useState('bianca2@gmail.com');
     const [password, setPassword] = useState('bianca');
     const [error, setError] = useState('');
 

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "273591161078",
+    "project_id": "proiect-licenta-locationtrack",
+    "storage_bucket": "proiect-licenta-locationtrack.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:273591161078:android:bcb103a250d7bda190dcd7",
+        "android_client_info": {
+          "package_name": "com.parentapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "273591161078-mmm8jvmrnn8ksrbdr468v09pdtllpm41.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9s3lwtRXfnMBlEwk7pft4A997PCnD-w4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "273591161078-mmm8jvmrnn8ksrbdr468v09pdtllpm41.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
