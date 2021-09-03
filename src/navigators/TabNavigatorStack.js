@@ -4,7 +4,7 @@ import {createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 // tab navigator
 import Map from '../screens/MapsScreen';
-import Notifications from '../screens/NotificationsScreen';
+import Zones from '../screens/ZonesScreen';
 
 import {TabContext} from '../context/TabNavigatorContext';
 
@@ -22,13 +22,13 @@ export const TabNavigator = ({route}) => {
             if(route.name === 'Map'){
               iconName = !focused ? 'map-outline' : 'map'   
             }
-            else if(route.name === 'Not'){ 
-              iconName = !focused? 'ios-notifications-outline': 'ios-notifications-sharp'
+            else if(route.name === 'Zones'){ 
+              iconName = !focused? 'ios-location-outline': 'ios-location-sharp'
             }
 
             return <Ionicons
                        name={iconName} 
-                       color = {'purple'}
+                       color = {'rgb( 0,147,135)'}
                        size = {25}
                     />
           }
@@ -49,11 +49,11 @@ export const TabNavigator = ({route}) => {
           }
         </Tabs.Screen>
 
-        <Tabs.Screen name='Not'>
+        <Tabs.Screen name='Zones'>
           {
             () => (
               <TabContext.Provider value={{childData: route.params}}>
-                <Notifications/>
+                <Zones/>
               </TabContext.Provider>
             )
           }

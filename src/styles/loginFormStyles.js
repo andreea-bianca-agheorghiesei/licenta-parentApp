@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
     container: {
       flex: 1, 
-      backgroundColor: '#BF55EC'
+      backgroundColor: 'rgba(  0, 147, 135, 0.7 )'
     },
     header: {
         flex: 1,
@@ -18,9 +18,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 20,
         paddingHorizontal: 30,
         paddingVertical: 50,
-        marginHorizontal: 15,
-       
-        
+        marginHorizontal: 10,       
     },
     text_header: {
         color: '#fff',
@@ -63,13 +61,15 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 10
+        borderRadius: 10,
     },
     textSign: {
         fontSize: 18,
         fontWeight: 'bold'
     },
-    signupTextCont : {
+
+    signupTextCont : 
+    {
     alignItems:'flex-end',
     justifyContent :'center',
     paddingVertical:16,

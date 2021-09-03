@@ -1,13 +1,13 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
- const DetailsScreen = () => {
+ const ZonesScreen = () => {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Details </Text>      
+      <Text>zones </Text>      
     </View> 
   )
 };
 
-export default DetailsScreen;
+export default ZonesScreen;
 

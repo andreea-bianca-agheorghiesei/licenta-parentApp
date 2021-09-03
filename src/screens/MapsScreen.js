@@ -56,8 +56,8 @@ const Map = () => {
       if(!isAddingZone){
       if(res.data.coordinates[0])
       {setLocation({
-        latitude: res.data.coordinates[0],
-        longitude: res.data.coordinates[1]
+        latitude: res.data.coordinates[1],
+        longitude: res.data.coordinates[0]
       })}
     }
     }).catch(err => {
@@ -65,45 +65,41 @@ const Map = () => {
     })   
   }
 
+  const checkZoneName = () => {
+    
+  }
   const createZone = () => {
     if(isLocationFixed)
      { 
-       console.log('raza' , radius);
-       console.log('latitudinea: ', region.latitude);
-       console.log('longitude: ', region.longitude);
-       console.log(zoneName)
-       if(zoneName !== ''){    
+    // var regex = /^(?!\s*$).+/
+    //  if(regex.test(zoneName))
+    //   {
+    //     Alert.alert(null, `The zone name is invalid!`,[{text: "OK",}])  
+    //     return;
+    //   }
+
        axios.post(`${BASE_URL}/addZone`,
       {
         childName: childData.params.child_name,
         zoneName : zoneName,
         radius : radius,
-        coordinates: [region.latitude, region.longitude]
+        coordinates: [region.longitude, region.latitude]
       },
       {
          headers: {"x-access-token" : user.jwt}
       }
       ).then(res=>{
+          Alert.alert(null, `The zone was added!`,[{text: "OK",}])  
            console.log(res.data)
-           Alert.alert(
-                "The zone was added!",
-                [
-                   {
-                       text: "OK",
-                   }
-                ]
-            )
-          }
+       }
           ).catch(err => {
-            console.log(err);
-      })   
-        
-}}}
+            //if(err.response.)
+      }) 
+}}
 
  useLayoutEffect(() => {
     console.log('start getting location of' + " " + childData.params.child_name);
     getData();
-    // centerMap();
     const interval = setInterval(() => {
       getData()
     }, 5000);
@@ -112,9 +108,9 @@ const Map = () => {
        }
   }, []);
 
-//   useEffect(() => {
-//     centerMap();
-// }, [location]);
+  useEffect(() => {
+    centerMap();
+}, [location]);
 
   onRegionChangeComplete = (region, isGesture) => {
     setRegion(region)
@@ -177,7 +173,7 @@ const Map = () => {
           (isAddingZone === true && isLocationFixed === true) ? 
           <Marker
             coordinate = {{latitude: region.latitude, longitude: region.longitude}}
-            pinColor = {"purple"} 
+            pinColor = {'rgba(  0, 147, 135, 0.3 )'} 
           />: null 
           
         }
@@ -185,7 +181,7 @@ const Map = () => {
           (isAddingZone === false && location.latitude!==null && location.longitude!==null)?
           <Marker
             coordinate = {location}
-            pinColor = {"purple"} 
+            pinColor = {'rgba(  0, 147, 135, 0.3 )'} 
           />:null 
         }
 
@@ -194,8 +190,8 @@ const Map = () => {
            <Circle
               center = {{latitude: region.latitude, longitude: region.longitude}}
               radius = {radius}
-              fillColor = 'rgba(128,0,128, 0.3)'
-              strokeColor = 'rgb(128,0,128)'
+              fillColor = 'rgba(  0, 147, 135, 0.7)'
+              strokeColor = 'rgba(  0, 147, 135, 0.3 )'
               strokeWidth = {2}
           />: null  
         }
@@ -208,7 +204,7 @@ const Map = () => {
           <Feather
               name = "plus-circle"
               size = {70}
-              color = {"purple"}
+              color = {'rgba(  0, 147, 135, 0.7 )'}
               style = {{opacity: 0.7}}
           />
        </TouchableOpacity> 
@@ -244,16 +240,6 @@ const Map = () => {
           <TouchableOpacity style = {styles.closeButton} onPress = {() => {onCloseButton()}} >
             <Ionicons name = 'close' size = {30} color={'rgba(0,0,0,0.75)'}/>
           </TouchableOpacity>
-
-          <View style={styles.searchBox}>
-            <TextInput 
-                placeholder="Search here"
-                placeholderTextColor="#000"
-                autoCapitalize="none"
-                style={{flex:1,padding:0}}
-            />
-            <Ionicons name="ios-search" size={20} />
-          </View>            
        </View>
 
        {/* footerul in care adaugi numele zonei */}

@@ -33,11 +33,11 @@ const styles = StyleSheet.create({
 
    createZoneButton: {
      width: '55%',
-     backgroundColor: 'rgba(128,0,128, 0.7)',
+     backgroundColor: 'rgb(  0, 147, 135)',
      marginVertical : 20,
      alignSelf: 'center',
      borderRadius: 15,
-     elevation: 2,
+    // elevation: 2,
    },
 
    buttonText: {
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     height: 8,
     width: 8,
     borderRadius: 10,
-    backgroundColor: 'purple'
+    backgroundColor: 'rgb(  0, 147, 135)'
   },
 
 // butoanele de +/- radius
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     width: '100%',  
     flexDirection:"row",
   // backgroundColor: 'red',
-    justifyContent: 'space-around',
+    // justifyContent: 'space-around',
     alignItems: 'baseline'
   },
 

@@ -45,7 +45,7 @@ export function DrawerContent(props) {
                             label="Home"
                             onPress={() => {props.navigation.navigate('Home')}}
                         />
-                        <DrawerItem 
+                        {/* <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
                                 name="account-outline" 
@@ -55,9 +55,9 @@ export function DrawerContent(props) {
                             )}
                             label="Profile"
                             // onPress={() => {props.navigation.navigate('Profile')}}
-                        />
+                        /> */}
 
-                        <DrawerItem 
+                        {/* <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
                                 name="cog-outline" 
@@ -67,7 +67,7 @@ export function DrawerContent(props) {
                             )}
                             label="Settings"
                             // onPress={() => {props.navigation.navigate('SettingsScreen')}}
-                        />
+                        /> */}
                     
                     </Drawer.Section>
                 </View>
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
       fontSize: 18,
       marginTop: 2,
       fontWeight: 'bold',
-      color: '#BF55EC'
+      color: 'rgba(  0, 147, 135, 0.7 )'
     },
     caption: {
       fontSize: 14,

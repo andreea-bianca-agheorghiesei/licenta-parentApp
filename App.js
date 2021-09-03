@@ -23,15 +23,6 @@ const App = () =>
         {
           !state.user ?
           <RootStack.Screen name = 'AuthStack' component={AuthStackScreen}/>
-          // <RootStack.Screen name = 'AuthStack'>
-          //   {
-          //     () => (
-          //        <AuthContext.Provider value={{errStatus: state.errStatus}}>
-          //           <AuthStackScreen/>
-          //        </AuthContext.Provider>
-          //   )
-          //   } 
-          // </RootStack.Screen> 
           : 
           <RootStack.Screen name = 'DrawerStack'>
             {
